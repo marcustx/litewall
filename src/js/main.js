@@ -1,5 +1,5 @@
-var paintRoute = function(route){
-  route["routename"].forEach((hold, index) => {
+var paintRouteArray = function(routeArray){
+  routeArray.forEach((hold, index) => {
 
   var elementId = hold.substring(0, 2);
 
@@ -13,13 +13,40 @@ var paintRoute = function(route){
   });
 };
 
+var getRouteName = function(){
+  const queryString = window.location.search;
+
+  const urlParams = new URLSearchParams(queryString);
+
+  return urlParams.get('routename');
+}
+
+var getRoute = function(routename, callback){
+  $.ajax({
+     type: "GET",
+     url: "api/route.php?routename=" + routename,
+     success: function(responseArray) {
+       route = responseArray;
+
+       callback(responseArray);
+       // route[routename] = response;
+       // paintRouteArray(response);
+       //alert(response['response']);
+     },
+     error: function(e) {
+         alert('Error' + e.toString());
+     }
+  });
+}
+
 $( document ).ready(function() {
     console.log( "ready!" );
 
-    //sample data
-    var route = { "routename": ["A1L", "B2R", "C3M"] };
+    var routename = getRouteName();
 
-    paintRoute(route);
+    if(routename){
+      getRoute(routename, paintRouteArray);
+    }
 
     $('#holdModal').on('show.bs.modal', function (event) {
       var holdButton = $(event.relatedTarget);
@@ -52,24 +79,28 @@ $( document ).ready(function() {
 
         var hand = handLabel.find("input").val();
 
-        route["routename"].push(position + hand);
+        var routename = getRouteName();
+
+        getRoute(routename, paintRouteArray);
+
+        route[routename].push(position + hand);
 
         console.log(route);
 
-        paintRoute(route);
+        paintRouteArray(route[routename]);
 
-        // $.ajax({
-        //     type: "POST",
-        //     url: "saveroute/",
-        //     data: routeObject,
-        //     success: function(response) {
-        $("#holdModal").modal('hide');
-        //         alert(response['response']);
-        //     },
-        //     error: function() {
-        //         alert('Error');
-        //     }
-        // });
+        $.ajax({
+           type: "PUT",
+           url: "api/route.php",
+           data: route,
+           success: function(response) {
+             $("#holdModal").modal('hide');
+             //alert(response['response']);
+           },
+           error: function(e) {
+               alert('Error' + e.toString());
+           }
+        });
         return false;
     });
 });

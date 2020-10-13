@@ -83,7 +83,7 @@ $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
             <!-- <li><a class="dropdown-item" href="/rules/">Code of conduct</a></li> -->
 <?php
           foreach($files as $file){
-             echo "<li><a class=\"dropdown-item\" href=\"?filename=$file\">" . $file . "</a></li>";
+             echo "<li><a class=\"dropdown-item\" href=\"?routename=$file\">" . $file . "</a></li>";
           }
 ?>
           </ul>

@@ -5,6 +5,8 @@ return [
     'left_hand_color' => "green",
     'right_hand_color' => "red",
     'match_color' => "blue",
-    'led_map' => [],
+    'neoPixelPin' => "board.D18",
+    'neoPixelNumberOfPixels' => "132",
+    'neoPixelBrightness' => "1"
 ];
 ?>
