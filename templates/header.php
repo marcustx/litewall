@@ -6,18 +6,31 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="/css/animate.min.css">
-	<link rel="stylesheet" href="/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/src/css/animate.min.css">
+	<link rel="stylesheet" href="/src/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/src/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="/css/templatemo-style.css">
-	<script src="/js/jquery.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
-        <script src="/js/jquery.singlePageNav.min.js"></script>
-	<script src="/js/typed.js"></script>
-	<script src="/js/wow.min.js"></script>
-	<script src="/js/custom.js"></script>
-  <script src="/js/owatracker.js"></script>
+	<link rel="stylesheet" href="/src/css/templatemo-style.css">
+	<script src="/src/js/jquery.js"></script>
+	<script src="/src/js/bootstrap.min.js"></script>
+        <script src="/src/js/jquery.singlePageNav.min.js"></script>
+	<script src="/src/js/typed.js"></script>
+	<script src="/src/js/wow.min.js"></script>
+	<script src="/src/js/custom.js"></script>
+	<script src="/src/js/main.js"></script>
+		<style>
+		.L{
+			background-color: <?php echo $config["left_hand_color"] ?>
+		}
+
+		.R{
+			background-color: <?php echo $config["right_hand_color"] ?>
+		}
+
+		.M{
+			background-color: <?php echo $config["match_color"] ?>
+		}
+	</style>
 </head>
 
 <script>
@@ -54,17 +67,17 @@ $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
 }
 </style>
 <?php
-  $path = 'routes';
+  $path = '../resources/routes';
   $files = array_diff(scandir($path), array('.', '..'));
 ?>
 <header>
 <nav class="navbar navbar-light bg-light templatemo-nav navbar-expand-md" role="navigation">
   <div class="container">
     <button class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">&#x2630;</button>
-    <a href="/" class="navbar-brand"><img width="90"src="/images/litewall.png" alt="LiteWall"></a>
+    <a href="/" class="navbar-brand"><img width="90"src="/src/images/litewall.png" alt="LiteWall"></a>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item dropdown"> 
+        <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ROUTE SAVED</a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <!-- <li><a class="dropdown-item" href="/rules/">Code of conduct</a></li> -->
@@ -82,4 +95,3 @@ $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
   </div>
 </nav>
 </header>
-
