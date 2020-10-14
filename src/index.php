@@ -30,7 +30,7 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       </div>
     </div>
       <button type="button" class="btn btn-secondary" id="new-route" data-toggle="modal" data-target="#newRouteModal">New Route</button>
-      <button type="button" class="btn btn-secondary" id="wall-off">Turn wall off</button>
+      <a href="/" class="btn btn-secondary">Turn Off Wall<a>
     </p>
   </div>
 </section>
