@@ -126,7 +126,14 @@ function updateRoute($json, $config)
       //if($DEBUG){echo "Values = " . $values . " position:" . $position . " Color = " . $color . "<br>";}
 
       $stringCommand .= "pixels[".$position."] = ".$color.";";
+
     }
+
+    $stringCommand .= "\"";
+
+    echo `$stringCommand`;
+
+    //echo "\nUPDATE ROUTE:". $stringCommand;
   }
 }
 
@@ -167,7 +174,7 @@ function updateWall($routeArray, $config )
   //if($DEBUG) {echo "$stringCommand";}
 
   echo `$stringCommand`;
-
+  //echo "\nUPDATE WALL:". $stringCommand;
   //handling responses...
 }
 
