@@ -1,6 +1,13 @@
 var routeArray = new Array();
 
+var resetHolds = function(){
+  $(".inUse").text("");
+  $(".inUse").removeClass("inUse L R M");
+}
+
 var paintRouteArray = function(){
+  resetHolds();
+
   routeArray.forEach((hold, index) => {
 
   var elementId = hold.substring(0, 2);
@@ -10,6 +17,8 @@ var paintRouteArray = function(){
   var element = $("#" + elementId);
 
   element.addClass(elementHand);
+
+  element.addClass("inUse");
 
   element.text(index);
   });
@@ -25,6 +34,30 @@ var getRouteName = function(){
   const urlParams = new URLSearchParams(queryString);
 
   return urlParams.get('routename');
+}
+
+var saveUpdatedRoute = function(routename){
+  var payload = {};
+
+  payload[routename] = routeArray ;
+
+  var jsonPayload = JSON.stringify(payload);
+
+  $.ajax({
+     type: "PUT",
+     url: "api/route.php",
+     data: jsonPayload,
+     success: function(response) {
+       if(response.length > 0){
+         alert(response);
+       }else{
+         $("#holdModal").modal('hide');
+       }
+     },
+     error: function(e) {
+         alert('Error' + e.toString());
+     }
+  });
 }
 
 var getRoute = function(routename, callback){
@@ -106,27 +139,24 @@ $( document ).ready(function() {
 
         paintRouteArray(routeArray);
 
-        var payload = {};
+        saveUpdatedRoute(routename);
 
-        payload[routename] = routeArray ;
+        return false;
+    });
 
-        var jsonPayload = JSON.stringify(payload);
+    $('#undo-last-hold').on('click', function(e) {
+        e.preventDefault();
 
-        $.ajax({
-           type: "PUT",
-           url: "api/route.php",
-           data: jsonPayload,
-           success: function(response) {
-             if(response.length > 0){
-               alert(response);
-             }else{
-               $("#holdModal").modal('hide');
-             }
-           },
-           error: function(e) {
-               alert('Error' + e.toString());
-           }
-        });
+        var routename = getRouteName();
+
+        var updatedArray = routeArray.slice(0, routeArray.length -1);
+
+        routeArray = updatedArray;
+
+        saveUpdatedRoute(routename);
+
+        paintRouteArray(routeArray);
+
         return false;
     });
 
