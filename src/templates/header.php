@@ -13,11 +13,11 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="/css/templatemo-style.css">
 
-		<!-- <script src="https://unpkg.com/@popperjs/core@2"></script>
-	<script src="/js/jquery.js"></script>
-	<script src="/js/bootstrap.min.js"></script> -->
-
 	<style>
+		.inUse{
+			text-align: center;
+		}
+
 		.L{
 			background-color: <?php echo $config["left_hand_color"] ?>
 		}

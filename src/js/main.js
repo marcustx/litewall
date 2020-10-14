@@ -1,8 +1,7 @@
 var routeArray = new Array();
 
 var resetHolds = function(){
-  $(".inUse").text("");
-  $(".inUse").removeClass("inUse L R M");
+  $(".inUse").remove();
 }
 
 var paintRouteArray = function(){
@@ -16,11 +15,9 @@ var paintRouteArray = function(){
 
   var element = $("#" + elementId);
 
-  element.addClass(elementHand);
+  var existingHtml = element.html();
 
-  element.addClass("inUse");
-
-  element.text(index);
+  element.html(existingHtml + "<div class=\"" + elementHand + " inUse\">" + index + "</div>");
   });
 };
 
