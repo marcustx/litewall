@@ -33,8 +33,9 @@ var getRoute = function(routename, callback){
        // paintRouteArray(response);
        //alert(response['response']);
      },
-     error: function(e) {
-         alert('Error' + e.toString());
+     error: function(a,b,c) {
+         //alert('Error' + e.toString());
+         console.log(a,b,c);
      }
   });
 }
@@ -91,7 +92,7 @@ $( document ).ready(function() {
 
         $.ajax({
            type: "PUT",
-           url: "api/route.php",
+           url: "/api/route.php",
            data: route,
            success: function(response) {
              $("#holdModal").modal('hide');
