@@ -29,7 +29,7 @@ switch ($method)
 function wallOff($config){
   $stringCommand = "sudo python3 -c \"import board, neopixel; pixels = neopixel.NeoPixel(" . $config['neoPixelPin'] . ", " . $config['neoPixelNumberOfPixels'] . ", brightness=" . $config['neoPixelBrightness'] . ");";
 
-  $stringCommand .= "pixels.fill((0, 0, 0))";
+  $stringCommand .= "pixels.fill((0, 0, 0))\"";
 
   echo `$stringCommand`;
 }
