@@ -27,6 +27,8 @@ if($_REQUEST["OFF"] )  { echo `sudo python3 led_off.py`; }
   <div class="col-md-8">
     <p class="section-leader">
       <h4>Make a selection</h4>
+      <button type="button" class="btn btn-secondary" id="new-route" data-toggle="modal" data-target="#newRouteModal">New Route</button>
+
       <form method="post">
         <input type="submit" name="TEST2" value="Test2"><br/>
         <input type="submit" name="OFF" value="OFF"><br/>
@@ -72,6 +74,27 @@ if($_REQUEST["OFF"] )  { echo `sudo python3 led_off.py`; }
 </table>
 </div>
 
+<div class="modal fade" id="newRouteModal" tabindex="-1" role="dialog" aria-labelledby="newRouteModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Create a new route</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label for="newRouteName">New Route Name</label>
+      <input type="text" class="form-control" id="newRouteName" aria-describedby="routeName" placeholder="" value="<?php echo date("Y-m-d") ?>">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" id="save-new-route">Save changes</button>
+    </div>
+  </div>
+</div>
+</div>
+
 <div class="modal fade" id="holdModal" tabindex="-1" role="dialog" aria-labelledby="holdModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -97,7 +120,7 @@ if($_REQUEST["OFF"] )  { echo `sudo python3 led_off.py`; }
     <div class="modal-footer">
       <input id="climbingHoldId" type="hidden" value=""></input>
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <button type="button" class="btn btn-primary" id="save-route">Save changes</button>
+      <button type="button" class="btn btn-primary" id="update-route">Save changes</button>
     </div>
   </div>
 </div>

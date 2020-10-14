@@ -73,7 +73,7 @@ $( document ).ready(function() {
       $("#holdModal").find(".active").removeClass("active");
     });
 
-    $('#save-route').on('click', function(e) {
+    $('#update-route').on('click', function(e) {
         e.preventDefault();
 
         var position = $("#climbingHoldId").val();
@@ -111,6 +111,30 @@ $( document ).ready(function() {
                alert(response);
              }else{
                $("#holdModal").modal('hide');
+             }
+           },
+           error: function(e) {
+               alert('Error' + e.toString());
+           }
+        });
+        return false;
+    });
+
+    $('#save-new-route').on('click', function(e) {
+        e.preventDefault();
+
+        var routeName = $("#newRouteName").val();
+
+        $.ajax({
+           type: "POST",
+           url: "api/route.php",
+           data: JSON.stringify(routeName),
+           success: function(response) {
+             if(response.length > 0){
+               alert(response);
+             }else{
+               $("#newRouteModal").modal('hide');
+               window.location.href = '?routename=' + routeName;
              }
            },
            error: function(e) {

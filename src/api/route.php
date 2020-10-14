@@ -50,9 +50,13 @@ function getRoute($routename, $config)
   print_r ( $jsonResponse );
 }
 
-function createRoute()
+function createRoute($input, $config)
 {
+  $key = "../../resources/routes/".$input;
 
+  $myFile = fopen($key, "w") or die ("Unable to Open File");
+
+  fwrite($myFile, "" );
 }
 
 function updateRoute($json, $config)
