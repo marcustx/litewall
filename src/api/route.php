@@ -32,7 +32,7 @@ function getRoute($routename, $config)
 
   $handle = fopen($filename, "r") or die ("Unable to Open File");
 
-  $contents = fread($handle, filesize($filename));
+  $contents = trim(fread($handle, filesize($filename)));
 
   fclose($handle);
 
@@ -77,7 +77,7 @@ function updateRoute($json, $config)
 
     //if($DEBUG){echo "NewName =" . $key . "<br>";}
 
-    $newValues = json_encode($value);
+    $newValues = implode($value, ",");
 
     //if($DEBUG){echo "VALUES =" . $newValues . "<br>";}
 

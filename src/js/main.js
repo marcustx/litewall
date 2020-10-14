@@ -107,8 +107,11 @@ $( document ).ready(function() {
            url: "api/route.php",
            data: jsonPayload,
            success: function(response) {
-             $("#holdModal").modal('hide');
-             //alert(response['response']);
+             if(response.length > 0){
+               alert(response);
+             }else{
+               $("#holdModal").modal('hide');
+             }
            },
            error: function(e) {
                alert('Error' + e.toString());
