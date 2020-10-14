@@ -35,9 +35,12 @@ function wallOff($config){
 }
 
 function getRoute($routename, $config)
-{
-  if ($routename == "") {
+{  
+  if (strlen($routename) == 0) {
+
     wallOff($config);
+
+    return;
   }
 
   $filename = "../routes/".$routename;

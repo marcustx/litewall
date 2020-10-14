@@ -58,10 +58,22 @@ var saveUpdatedRoute = function(routename){
 }
 
 var getRoute = function(routename, callback){
+
+  var url = "api/route.php?routename=";
+
+  if(routename){
+    url = "api/route.php?routename=" + routename;
+  };
+
   $.ajax({
      type: "GET",
-     url: "api/route.php?routename=" + routename,
+     url: url,
      success: function(responseArray) {
+
+       if(responseArray.length == 0){
+         return;
+       }
+
        routeArray = responseArray;
 
        callback(responseArray);
@@ -95,9 +107,7 @@ var getRoute = function(routename, callback){
 $( document ).ready(function() {
     var routename = getRouteName();
 
-    if(routename){
-      getRoute(routename, setupRoute);
-    }
+    getRoute(routename, setupRoute);
 
     $('#holdModal').on('show.bs.modal', function (event) {
       var holdButton = $(event.relatedTarget);
