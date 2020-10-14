@@ -26,8 +26,20 @@ switch ($method)
     break;
 }
 
+function wallOff($config){
+  $stringCommand = "sudo python3 -c \"import board, neopixel; pixels = neopixel.NeoPixel(" . $config['neoPixelPin'] . ", " . $config['neoPixelNumberOfPixels'] . ", brightness=" . $config['neoPixelBrightness'] . ");";
+
+  $stringCommand .= "pixels.fill((0, 0, 0))";
+
+  echo `$stringCommand`;
+}
+
 function getRoute($routename, $config)
 {
+  if ($routename == "") {
+    wallOff($config);
+  }
+
   $filename = "../routes/".$routename;
 
   if(filesize($filename) > 0){

@@ -5,38 +5,44 @@ $config = include("$root/config/appconfig.php");
 $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- start header -->
 <?php include($_SERVER['DOCUMENT_ROOT']."/templates/header.php"); ?>
-
-<!-- end header -->
-
-<!-- start command  -->
-
-<?php
-$DEBUG = 0;
-
-//todo add reset to route api
-if($_REQUEST["OFF"] )  { echo `sudo python3 led_off.py`; }
-
-?>
 
 <section class="mb-8">
   <div class="col-md-8">
     <p class="section-leader">
       <h4>Make a selection</h4>
-      <button type="button" class="btn btn-secondary" id="new-route" data-toggle="modal" data-target="#newRouteModal">New Route</button>
+      <div class="btn-group" role="group" >
+        <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Select a route
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <?php
+            $path = './routes';
 
-      <form method="post">
-        <input type="submit" name="TEST2" value="Test2"><br/>
-        <input type="submit" name="OFF" value="OFF"><br/>
-      </form>
+            $files = array_diff(scandir($path), array('.', '..'));
+
+            foreach($files as $file){
+               echo "<a class=\"dropdown-item\" href=\"?routename=$file\">$file</a>";
+            }
+          ?>
+        </div>
+      </div>
+    </div>
+      <button type="button" class="btn btn-secondary" id="new-route" data-toggle="modal" data-target="#newRouteModal">New Route</button>
+      <button type="button" class="btn btn-secondary" id="wall-off">Turn wall off</button>
     </p>
   </div>
 </section>
 
+<?php if(strlen($_GET["routename"]) == 0){ ?>
+  <h2>
+    Select a route or start a new one.
+  </h2>
+<?php
+}else{
+  //show table
+?>
 <div class="table-responsive">
 <table class="table table-dark table-striped table-bordered table-hover">
     <thead class="">
@@ -125,11 +131,6 @@ if($_REQUEST["OFF"] )  { echo `sudo python3 led_off.py`; }
   </div>
 </div>
 </div>
-<!-- end command -->
-
-<!-- start copyright -->
+<?php } ?>
 <?php include($_SERVER['DOCUMENT_ROOT']."/templates/footer.php"); ?>
 <!-- end copyright -->
-
-</body>
-</html>

@@ -63,8 +63,6 @@ var getRoute = function(routename, callback){
 }
 
 $( document ).ready(function() {
-    console.log( "ready!" );
-
     var routename = getRouteName();
 
     if(routename){
