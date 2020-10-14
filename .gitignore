@@ -35,4 +35,7 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-*/routes/*
+
+# User Specific Application Routes #
+resources/routes/*
+src/routes/*
