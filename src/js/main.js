@@ -1,4 +1,4 @@
-var routeArray = [];
+var routeArray = new Array();
 
 var paintRouteArray = function(){
   routeArray.forEach((hold, index) => {
@@ -39,9 +39,25 @@ var getRoute = function(routename, callback){
        // paintRouteArray(response);
        //alert(response['response']);
      },
-     error: function(a,b,c) {
-         //alert('Error' + e.toString());
-         console.log(a,b,c);
+     error: function(jqXHR, exception) {
+       console.log("get route error, see below");
+        var msg = '';
+        if (jqXHR.status === 0) {
+            msg = 'Not connect.\n Verify Network.';
+        } else if (jqXHR.status == 404) {
+            msg = 'Requested page not found. [404]';
+        } else if (jqXHR.status == 500) {
+            msg = 'Internal Server Error [500].';
+        } else if (exception === 'parsererror') {
+            msg = 'Requested JSON parse failed.';
+        } else if (exception === 'timeout') {
+            msg = 'Time out error.';
+        } else if (exception === 'abort') {
+            msg = 'Ajax request aborted.';
+        } else {
+            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        }
+        console.log(msg);
      }
   });
 }
@@ -88,17 +104,15 @@ $( document ).ready(function() {
 
         var routename = getRouteName();
 
-        routeArray.push(position + hand);
-
         console.log(routeArray);
+
+        routeArray.push(position + hand);
 
         paintRouteArray(routeArray);
 
         var payload = {};
 
         payload[routename] = routeArray ;
-
-        console.log(payload);
 
         var jsonPayload = JSON.stringify(payload);
 
