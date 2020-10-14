@@ -30,29 +30,41 @@ function getRoute($routename, $config)
 {
   $filename = "../routes/".$routename;
 
-  $handle = fopen($filename, "r") or die ("Unable to Open File");
+  if(filesize($filename) > 0){
+    $handle = fopen($filename, "r") or die ("Unable to Open File");
 
-  $contents = fread($handle, filesize($filename));
+    $contents = trim(fread($handle, filesize($filename)));
 
-  fclose($handle);
+    fclose($handle);
 
-  $routeArray = explode(",",$contents);
+    $routeArray = explode(",",$contents);
 
-  updateWall($routeArray, $config);
+    updateWall($routeArray, $config);
 
-  $jsonResponse = json_encode ( $routeArray, JSON_PRETTY_PRINT );
+    $jsonResponse = json_encode ( $routeArray, JSON_PRETTY_PRINT );
 
-  /*
-   * Prepare Response
-   */
-  header('content-type: application/json; charset=UTF-8');
+    header('content-type: application/json; charset=UTF-8');
 
-  print_r ( $jsonResponse );
+    print_r ( $jsonResponse );
+  }else{
+    $emptyArray = [];
+
+    $jsonResponse = json_encode ( $emptyArray, JSON_PRETTY_PRINT );
+
+    header('content-type: application/json; charset=UTF-8');
+
+    print_r ( $jsonResponse );
+
+  }
 }
 
-function createRoute()
+function createRoute($input, $config)
 {
+  $key = "../routes/".$input;
 
+  $myFile = fopen($key, "w") or die ("Unable to Open File");
+
+  fwrite($myFile, "" );
 }
 
 function updateRoute($json, $config)
@@ -73,11 +85,11 @@ function updateRoute($json, $config)
   {
     //if($DEBUG){echo "FileName =" . $key . "<br>";}
 
-    $key = "/routes/".$key;
+    $key = "../routes/".$key;
 
     //if($DEBUG){echo "NewName =" . $key . "<br>";}
 
-    $newValues = json_encode($value);
+    $newValues = implode($value, ",");
 
     //if($DEBUG){echo "VALUES =" . $newValues . "<br>";}
 
@@ -143,7 +155,7 @@ function updateWall($routeArray, $config )
   //if($DEBUG) {echo "$stringCommand";}
 
   echo `$stringCommand`;
-  echo $stringCommand;
+
   //handling responses...
 }
 

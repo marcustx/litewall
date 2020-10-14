@@ -1,4 +1,6 @@
-var paintRouteArray = function(routeArray){
+var routeArray = new Array();
+
+var paintRouteArray = function(){
   routeArray.forEach((hold, index) => {
 
   var elementId = hold.substring(0, 2);
@@ -13,6 +15,10 @@ var paintRouteArray = function(routeArray){
   });
 };
 
+var setupRoute = function(route){
+  paintRouteArray();
+}
+
 var getRouteName = function(){
   const queryString = window.location.search;
 
@@ -26,16 +32,32 @@ var getRoute = function(routename, callback){
      type: "GET",
      url: "api/route.php?routename=" + routename,
      success: function(responseArray) {
-       route = responseArray;
+       routeArray = responseArray;
 
        callback(responseArray);
        // route[routename] = response;
        // paintRouteArray(response);
        //alert(response['response']);
      },
-     error: function(a,b,c) {
-         //alert('Error' + e.toString());
-         console.log(a,b,c);
+     error: function(jqXHR, exception) {
+       console.log("get route error, see below");
+        var msg = '';
+        if (jqXHR.status === 0) {
+            msg = 'Not connect.\n Verify Network.';
+        } else if (jqXHR.status == 404) {
+            msg = 'Requested page not found. [404]';
+        } else if (jqXHR.status == 500) {
+            msg = 'Internal Server Error [500].';
+        } else if (exception === 'parsererror') {
+            msg = 'Requested JSON parse failed.';
+        } else if (exception === 'timeout') {
+            msg = 'Time out error.';
+        } else if (exception === 'abort') {
+            msg = 'Ajax request aborted.';
+        } else {
+            msg = 'Uncaught Error.\n' + jqXHR.responseText;
+        }
+        console.log(msg);
      }
   });
 }
@@ -46,7 +68,7 @@ $( document ).ready(function() {
     var routename = getRouteName();
 
     if(routename){
-      getRoute(routename, paintRouteArray);
+      getRoute(routename, setupRoute);
     }
 
     $('#holdModal').on('show.bs.modal', function (event) {
@@ -67,7 +89,7 @@ $( document ).ready(function() {
       $("#holdModal").find(".active").removeClass("active");
     });
 
-    $('#save-route').on('click', function(e) {
+    $('#update-route').on('click', function(e) {
         e.preventDefault();
 
         var position = $("#climbingHoldId").val();
@@ -82,21 +104,52 @@ $( document ).ready(function() {
 
         var routename = getRouteName();
 
-        getRoute(routename, paintRouteArray);
+        console.log(routeArray);
 
-        route[routename].push(position + hand);
+        routeArray.push(position + hand);
 
-        console.log(route);
+        paintRouteArray(routeArray);
 
-        paintRouteArray(route[routename]);
+        var payload = {};
+
+        payload[routename] = routeArray ;
+
+        var jsonPayload = JSON.stringify(payload);
 
         $.ajax({
            type: "PUT",
-           url: "/api/route.php",
-           data: route,
+           url: "api/route.php",
+           data: jsonPayload,
            success: function(response) {
-             $("#holdModal").modal('hide');
-             //alert(response['response']);
+             if(response.length > 0){
+               alert(response);
+             }else{
+               $("#holdModal").modal('hide');
+             }
+           },
+           error: function(e) {
+               alert('Error' + e.toString());
+           }
+        });
+        return false;
+    });
+
+    $('#save-new-route').on('click', function(e) {
+        e.preventDefault();
+
+        var routeName = $("#newRouteName").val();
+
+        $.ajax({
+           type: "POST",
+           url: "api/route.php",
+           data: JSON.stringify(routeName),
+           success: function(response) {
+             if(response.length > 0){
+               alert(response);
+             }else{
+               $("#newRouteModal").modal('hide');
+               window.location.href = '?routename=' + routeName;
+             }
            },
            error: function(e) {
                alert('Error' + e.toString());
