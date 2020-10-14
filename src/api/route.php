@@ -29,7 +29,7 @@ switch ($method)
 function wallOff($config){
   $stringCommand = "sudo python3 -c \"import board, neopixel; pixels = neopixel.NeoPixel(" . $config['neoPixelPin'] . ", " . $config['neoPixelNumberOfPixels'] . ", brightness=" . $config['neoPixelBrightness'] . ");";
 
-  $stringCommand .= "pixels.fill((0, 0, 0))";
+  $stringCommand .= "pixels.fill((0, 0, 0))\"";
 
   echo `$stringCommand`;
 }
@@ -129,7 +129,14 @@ function updateRoute($json, $config)
       //if($DEBUG){echo "Values = " . $values . " position:" . $position . " Color = " . $color . "<br>";}
 
       $stringCommand .= "pixels[".$position."] = ".$color.";";
+
     }
+
+    $stringCommand .= "\"";
+
+    echo `$stringCommand`;
+
+    //echo "\nUPDATE ROUTE:". $stringCommand;
   }
 }
 
@@ -170,7 +177,7 @@ function updateWall($routeArray, $config )
   //if($DEBUG) {echo "$stringCommand";}
 
   echo `$stringCommand`;
-
+  //echo "\nUPDATE WALL:". $stringCommand;
   //handling responses...
 }
 
