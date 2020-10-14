@@ -80,6 +80,9 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 </table>
 </div>
 
+<?php } ?>
+
+
 <div class="modal fade" id="newRouteModal" tabindex="-1" role="dialog" aria-labelledby="newRouteModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -131,6 +134,5 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   </div>
 </div>
 </div>
-<?php } ?>
 <?php include($_SERVER['DOCUMENT_ROOT']."/templates/footer.php"); ?>
 <!-- end copyright -->
