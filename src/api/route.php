@@ -22,7 +22,7 @@ switch ($method)
     createRoute($input, $config );
     break;
   case 'DELETE':
-    deleteRoute();
+    deleteRoute($input);
     break;
 }
 
@@ -171,9 +171,11 @@ function updateWall($routeArray, $config )
   //handling responses...
 }
 
-function deleteRoute()
+function deleteRoute($filename)
 {
+  $filekey = "../routes/".$filename;
 
+  unlink($filekey);
 }
 
 ?>

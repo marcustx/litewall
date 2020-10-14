@@ -102,8 +102,6 @@ $( document ).ready(function() {
 
         var routename = getRouteName();
 
-        console.log(routeArray);
-
         routeArray.push(position + hand);
 
         paintRouteArray(routeArray);
@@ -123,6 +121,29 @@ $( document ).ready(function() {
                alert(response);
              }else{
                $("#holdModal").modal('hide');
+             }
+           },
+           error: function(e) {
+               alert('Error' + e.toString());
+           }
+        });
+        return false;
+    });
+
+    $('#delete-route').on('click', function(e) {
+        e.preventDefault();
+
+        var routename = getRouteName();
+
+        $.ajax({
+           type: "DELETE",
+           url: "api/route.php",
+           data: JSON.stringify(routename),
+           success: function(response) {
+             if(response.length > 0){
+               alert(response);
+             }else{
+               window.location.href = '/';
              }
            },
            error: function(e) {
