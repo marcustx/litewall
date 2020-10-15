@@ -6,186 +6,30 @@ $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 
 $config = include("../config/appconfig.php");
 
-$request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
-
 $input = json_decode(file_get_contents('php://input'),true);
+
+require_once('../litewall/ILedWallService.php');
+require_once('../litewall/LedWallService.php');
+require_once('RouteService.php');
+
+$ledWallService = new LedWallService($config);
+
+$routeService = new RouteService($ledWallService, $input, $_GET["routename"]);
 
 switch ($method)
 {
   case 'GET':
-    getRoute($_GET["routename"], $config);
+    $routeService->getRoute();
     break;
   case 'PUT':
-    updateRoute($input, $config );
+    $routeService->updateRoute();
     break;
   case 'POST':
-    createRoute($input, $config );
+    $routeService->createRoute();
     break;
   case 'DELETE':
-    deleteRoute($input);
+    $routeService->deleteRoute();
     break;
-}
-
-function wallOff($config){
-  $stringCommand = "sudo python3 -c \"import board, neopixel; pixels = neopixel.NeoPixel(" . $config['neoPixelPin'] . ", " . $config['neoPixelNumberOfPixels'] . ", brightness=" . $config['neoPixelBrightness'] . ");";
-
-  $stringCommand .= "pixels.fill((0, 0, 0))\"";
-
-  echo `$stringCommand`;
-}
-
-function getRoute($routename, $config)
-{  
-  if (strlen($routename) == 0) {
-
-    wallOff($config);
-
-    return;
-  }
-
-  $filename = "../routes/".$routename;
-
-  if(filesize($filename) > 0){
-    $handle = fopen($filename, "r") or die ("Unable to Open File");
-
-    $contents = trim(fread($handle, filesize($filename)));
-
-    fclose($handle);
-
-    $routeArray = explode(",",$contents);
-
-    updateWall($routeArray, $config);
-
-    $jsonResponse = json_encode ( $routeArray, JSON_PRETTY_PRINT );
-
-    header('content-type: application/json; charset=UTF-8');
-
-    print_r ( $jsonResponse );
-  }else{
-    $emptyArray = [];
-
-    $jsonResponse = json_encode ( $emptyArray, JSON_PRETTY_PRINT );
-
-    header('content-type: application/json; charset=UTF-8');
-
-    print_r ( $jsonResponse );
-
-  }
-}
-
-function createRoute($input, $config)
-{
-  $key = "../routes/".$input;
-
-  $myFile = fopen($key, "w") or die ("Unable to Open File");
-
-  fwrite($myFile, "" );
-}
-
-function updateRoute($json, $config)
-{
-  global $DEBUG;
-
-  $wallConfig  = file_get_contents("../config/wallcfg.json");
-
-  $jsonPOS     = json_decode($wallConfig);
-
-  $colorConfig = file_get_contents("../config/colorcfg.json");
-
-  $jsonCOL = json_decode($colorConfig);
-
-  $stringCommand = "sudo python3 -c \"import board, neopixel; pixels = neopixel.NeoPixel(" . $config['neoPixelPin'] . ", " . $config['neoPixelNumberOfPixels'] . ", brightness=" . $config['neoPixelBrightness'] . ");";
-
-  foreach($json as $key=>$value)
-  {
-    //if($DEBUG){echo "FileName =" . $key . "<br>";}
-
-    $key = "../routes/".$key;
-
-    //if($DEBUG){echo "NewName =" . $key . "<br>";}
-
-    $newValues = implode($value, ",");
-
-    //if($DEBUG){echo "VALUES =" . $newValues . "<br>";}
-
-    $myFile = fopen($key, "w") or die ("Unable to Open File");
-
-    fwrite($myFile, $newValues );
-
-    fclose($myFile);
-
-    foreach ($value as $values)
-    {
-      $output = str_split($values, 2);
-
-      $val = $output[0];
-
-      $col = $output[1];
-
-      $position = $jsonPOS->$val;
-
-      $color    = $jsonCOL->$col;
-
-      //if($DEBUG){echo "Values = " . $values . " position:" . $position . " Color = " . $color . "<br>";}
-
-      $stringCommand .= "pixels[".$position."] = ".$color.";";
-
-    }
-
-    $stringCommand .= "\"";
-
-    echo `$stringCommand`;
-
-    //echo "\nUPDATE ROUTE:". $stringCommand;
-  }
-}
-
-function updateWall($routeArray, $config )
-{
-  global $DEBUG;
-
-  $wallConfig  = file_get_contents("../config/wallcfg.json");
-
-  $jsonPOS     = json_decode($wallConfig);
-
-  $colorConfig = file_get_contents("../config/colorcfg.json");
-
-  $jsonCOL     = json_decode($colorConfig);
-
-  $stringCommand = "sudo python3 -c \"import board, neopixel; pixels = neopixel.NeoPixel(" . $config['neoPixelPin'] . ", " . $config['neoPixelNumberOfPixels'] . ", brightness=" . $config['neoPixelBrightness'] . ");";
-
-  foreach ($routeArray as $value)
-  {
-
-    $output = str_split($value, 2);
-
-    $val = $output[0];
-
-    $col = $output[1];
-
-    $position = $jsonPOS->$val;
-
-    $color    = $jsonCOL->$col;
-
-    //if($DEBUG){echo "Values = " . $values . " position:" . $position . " Color = " . $color . "<br>";}
-
-    $stringCommand .= "pixels[".$position."] = ".$color.";";
-  }
-
-  $stringCommand .= "\"";
-
-  //if($DEBUG) {echo "$stringCommand";}
-
-  echo `$stringCommand`;
-  //echo "\nUPDATE WALL:". $stringCommand;
-  //handling responses...
-}
-
-function deleteRoute($filename)
-{
-  $filekey = "../routes/".$filename;
-
-  unlink($filekey);
 }
 
 ?>

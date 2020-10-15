@@ -74,12 +74,13 @@ var getRoute = function(routename, callback){
          return;
        }
 
-       routeArray = responseArray;
+       if(Array.isArray(responseArray)){
+         routeArray = responseArray;
 
-       callback(responseArray);
-       // route[routename] = response;
-       // paintRouteArray(response);
-       //alert(response['response']);
+         callback(responseArray);
+       }else{
+         alert(responseArray);
+       }
      },
      error: function(jqXHR, exception) {
        console.log("get route error, see below");
@@ -136,6 +137,8 @@ $( document ).ready(function() {
 
         if(handLabel.length < 1 ){
           alert("you need to select a hand option");
+
+          return;
         }
 
         var hand = handLabel.find("input").val();
