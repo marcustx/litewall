@@ -65,6 +65,8 @@ class RouteService
     fwrite($routeFile, "");
 
     fclose($routeFile);
+
+    $this->_ledWallService->wallOff();
   }
 
   public function updateRoute()
