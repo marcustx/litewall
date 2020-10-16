@@ -40,7 +40,7 @@ class LedWallService implements ILedWallService
 
     $stringCommand .= "\"";
 
-    // $this->replaySequence($routeArray);
+    $this->replaySequence($routeArray);
 
     echo `$stringCommand`;
   }
@@ -48,6 +48,8 @@ class LedWallService implements ILedWallService
   private function replaySequence($routeArray)
   {
     $blinkArray = array();
+
+    $stringCommand = $this->getBaseNeoPixelCommand();
 
     foreach ($routeArray as $hold)
     {
@@ -64,12 +66,12 @@ class LedWallService implements ILedWallService
       $ledColor = $this->getLedColor($holdHand);
 
       $blinkArray[$ledId] = $ledColor;
-    }
 
-    //very roughly stubbed.  probably wrong
-    $stringCommand = "sudo echo ";
-    $stringCommand .= json_encode($blinkArray);
-    $stringCommand .= " python3 blink.py";
+      $stringCommand .= "pixels[".$ledId."] = ".$ledColor.";";
+
+      $stringCommand .= "time.sleep(700/1000.0);";
+    }
+    $stringCommand .= "\"";
 
     echo`$stringCommand`;
   }
@@ -94,7 +96,7 @@ class LedWallService implements ILedWallService
   }
 
   private function getBaseNeoPixelCommand(){
-    $stringCommand = "sudo python3 -c \"import board, neopixel; ";
+    $stringCommand = "sudo python3 -c \"import board, neopixel, time; ";
     $stringCommand .= "pixels = neopixel.NeoPixel(";
     $stringCommand .= $this->_config['neoPixelPin'];
     $stringCommand .= ", ";
