@@ -112,6 +112,10 @@ $( document ).ready(function() {
 
     getRoute(routename, setupRoute);
 
+    $('#replay-sequence').on('click', function(e) {
+      getRoute(routename, setupRoute);
+    });
+
     $('#holdModal').on('show.bs.modal', function (event) {
       var holdButton = $(event.relatedTarget);
 
