@@ -9,9 +9,11 @@ var paintRouteArray = function(){
 
   routeArray.forEach((hold, index) => {
 
-  var elementId = hold.substring(0, 2);
+  var holdLength = hold.length;
 
-  var elementHand = hold.substring(2, 3);
+  var elementId = hold.substring(0, holdLength - 1);
+
+  var elementHand = hold.substring(holdLength - 1 , holdLength);
 
   var element = $("#" + elementId);
 
