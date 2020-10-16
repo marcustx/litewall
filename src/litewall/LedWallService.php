@@ -23,7 +23,9 @@ class LedWallService implements ILedWallService
 
     foreach ($routeArray as $hold)
     {
-      $holdArray = str_split($hold, 2);
+      $length = strlen($hold);
+
+      $holdArray = str_split($hold, ($length-1));
 
       $holdPosition = $holdArray[0];
 
@@ -57,7 +59,7 @@ class LedWallService implements ILedWallService
   }
 
   private function getLedId($holdPosition){
-    return $this->_config["led_id_map"]->$holdPosition;
+    return $this->_config["led_id_map"][$holdPosition];
   }
 
   private function getBaseNeoPixelCommand(){
