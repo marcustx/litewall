@@ -40,7 +40,38 @@ class LedWallService implements ILedWallService
 
     $stringCommand .= "\"";
 
+    // $this->replaySequence($routeArray);
+
     echo `$stringCommand`;
+  }
+
+  private function replaySequence($routeArray)
+  {
+    $blinkArray = array();
+
+    foreach ($routeArray as $hold)
+    {
+      $length = strlen($hold);
+
+      $holdArray = str_split($hold, ($length-1));
+
+      $holdPosition = $holdArray[0];
+
+      $holdHand = $holdArray[1];
+
+      $ledId = $this->getLedId($holdPosition);
+
+      $ledColor = $this->getLedColor($holdHand);
+
+      $blinkArray[$ledId] = $ledColor;
+    }
+
+    //very roughly stubbed.  probably wrong
+    $stringCommand = "sudo echo ";
+    $stringCommand .= json_encode($blinkArray);
+    $stringCommand .= " python3 blink.py";
+
+    echo`$stringCommand`;
   }
 
   private function getLedColor($holdHand)

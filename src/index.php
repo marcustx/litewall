@@ -31,10 +31,6 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     </div>
       <button type="button" class="btn btn-secondary" id="new-route" data-toggle="modal" data-target="#newRouteModal">New Route</button>
       <a href="/" class="btn btn-secondary">Turn Off Wall<a>
-        <div class="btn-group pull-right" role="group" >
-          <button type="button" class="btn btn-warning" id="undo-last-hold">Undo Last Hold</button>
-          <button type="button" class="btn btn-danger" id="delete-route">Delete Route</button>
-        </div>
     </p>
   </div>
 </section>
@@ -85,7 +81,12 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   </div>
 
   <?php } ?>
+  <button type="button" class="btn btn-secondary" id="replay-sequence">Replay Sequence</button>
 
+  <div class="btn-group pull-right" role="group" >
+    <button type="button" class="btn btn-warning" id="undo-last-hold">Undo Last Hold</button>
+    <button type="button" class="btn btn-danger" id="delete-route">Delete Route</button>
+  </div>
 
   <div class="modal fade" id="newRouteModal" tabindex="-1" role="dialog" aria-labelledby="newRouteModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
