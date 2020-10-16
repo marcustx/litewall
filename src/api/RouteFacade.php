@@ -1,6 +1,6 @@
 <?php
 
-class RouteService
+class RouteFacade
 {
   private $_ledWallService;
 
@@ -13,6 +13,35 @@ class RouteService
       $this->_ledWallService = $ledWallService;
       $this->_input = $input;
       $this->_routename = $routename;
+  }
+
+  public function replaySequence()
+  {
+    if (strlen($this->_routename) == 0) {
+
+      $this->_ledWallService->wallOff();
+
+      return;
+    }
+
+    $filename = "../routes/".$this->_routename;
+
+    if(filesize($filename) > 0)
+    {
+      $handle = fopen($filename, "r") or die ("Unable to Open File");
+
+      $contents = trim(fread($handle, filesize($filename)));
+
+      fclose($handle);
+
+      $routeArray = explode(",",$contents);
+
+      $this->_ledWallService->replaySequence($routeArray);
+    }
+    else
+    {
+        return;
+    }
   }
 
   public function getRoute()

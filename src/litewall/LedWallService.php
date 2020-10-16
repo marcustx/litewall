@@ -40,12 +40,10 @@ class LedWallService implements ILedWallService
 
     $stringCommand .= "\"";
 
-    $this->replaySequence($routeArray);
-
     echo `$stringCommand`;
   }
 
-  private function replaySequence($routeArray)
+  public function replaySequence($routeArray)
   {
     $blinkArray = array();
 
@@ -69,8 +67,9 @@ class LedWallService implements ILedWallService
 
       $stringCommand .= "pixels[".$ledId."] = ".$ledColor.";";
 
-      $stringCommand .= "time.sleep(700/1000.0);";
+      $stringCommand .= "time.sleep(.7);";
     }
+
     $stringCommand .= "\"";
 
     echo`$stringCommand`;

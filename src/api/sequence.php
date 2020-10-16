@@ -19,16 +19,16 @@ $routeFacade = new RouteFacade($ledWallService, $input, $_GET["routename"]);
 switch ($method)
 {
   case 'GET':
-    $routeFacade->getRoute();
+    $routeFacade->replaySequence();
     break;
   case 'PUT':
-    $routeFacade->updateRoute();
+    throw new Exception("Method not yet implemented", 1);
     break;
   case 'POST':
-    $routeFacade->createRoute();
+    throw new Exception("Method not yet implemented", 1);
     break;
   case 'DELETE':
-    $routeFacade->deleteRoute();
+    throw new Exception("Method not yet implemented", 1);
     break;
 }
 

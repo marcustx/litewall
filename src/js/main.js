@@ -113,7 +113,51 @@ $( document ).ready(function() {
     getRoute(routename, setupRoute);
 
     $('#replay-sequence').on('click', function(e) {
-      getRoute(routename, setupRoute);
+
+      var url = "api/sequence.php?routename=";
+
+      if(routename){
+        url = "api/sequence.php?routename=" + routename;
+      };
+
+      $.ajax({
+         type: "GET",
+         url: url,
+         success: function(responseArray) {
+
+           if(responseArray.length == 0){             
+             return;
+           }
+
+           if(Array.isArray(responseArray)){
+             routeArray = responseArray;
+
+             callback(responseArray);
+           }else{
+             alert(responseArray);
+           }
+         },
+         error: function(jqXHR, exception) {
+           console.log("get route error, see below");
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            console.log(msg);
+         }
+      });
     });
 
     $('#holdModal').on('show.bs.modal', function (event) {
