@@ -10,16 +10,19 @@ $input = json_decode(file_get_contents('php://input'),true);
 
 require_once('../litewall/ILedWallService.php');
 require_once('../litewall/LedWallService.php');
+require_once('../litewall/RouteFileService.php');
 require_once('RouteFacade.php');
 
 $ledWallService = new LedWallService($config);
 
-$routeFacade = new RouteFacade($ledWallService, $input, $_GET["routename"]);
+$routeFileService = new RouteFileService();
+
+$routeFacade = new RouteFacade($ledWallService, $routeFileService);
 
 switch ($method)
 {
   case 'GET':
-    $routeFacade->replaySequence();
+    $routeFacade->replaySequence($_GET["routename"]);
     break;
   case 'PUT':
     throw new Exception("Method not yet implemented", 1);

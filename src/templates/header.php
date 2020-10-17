@@ -16,6 +16,8 @@
 	<style>
 		.inUse{
 			text-align: center;
+			width: 50%;
+    	border-radius: 100px;
 		}
 
 		.L{

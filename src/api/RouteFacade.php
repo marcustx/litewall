@@ -4,128 +4,71 @@ class RouteFacade
 {
   private $_ledWallService;
 
-  private $_input;
+  private $_routeFileService;
 
-  private $_routename;
-
-  public function __construct($ledWallService, $input, $routename)
+  public function __construct(ILedWallService $ledWallService, RouteFileService $routeFileService)
   {
       $this->_ledWallService = $ledWallService;
-      $this->_input = $input;
-      $this->_routename = $routename;
+      $this->_routeFileService = $routeFileService;
   }
 
-  public function replaySequence()
+  public function replaySequence(string $routeName): void
   {
-    if (strlen($this->_routename) == 0) {
-
-      $this->_ledWallService->wallOff();
-
-      return;
-    }
-
-    $filename = "../routes/".$this->_routename;
-
-    if(filesize($filename) > 0)
+    if($this->_routeFileService->routeExists($routeName))
     {
-      $handle = fopen($filename, "r") or die ("Unable to Open File");
-
-      $contents = trim(fread($handle, filesize($filename)));
-
-      fclose($handle);
-
-      $routeArray = explode(",",$contents);
+      $routeArray = $this->_routeFileService->readFile($routeName);
 
       $this->_ledWallService->replaySequence($routeArray);
     }
     else
     {
-        return;
+      return;
     }
   }
 
-  public function getRoute()
+  public function getRoute(string $routeName): array
   {
-    if (strlen($this->_routename) == 0) {
+    if (strlen($routeName) == 0) {
 
       $this->_ledWallService->wallOff();
 
-      return;
+      return [];
     }
 
-    $filename = "../routes/".$this->_routename;
+    $routeArray = $this->_routeFileService->readFile($routeName);
 
-    if(filesize($filename) > 0)
-    {
-      $handle = fopen($filename, "r") or die ("Unable to Open File");
+    $this->_ledWallService->updateWall($routeArray);
 
-      $contents = trim(fread($handle, filesize($filename)));
-
-      fclose($handle);
-
-      $routeArray = explode(",",$contents);
-
-      $this->_ledWallService->updateWall($routeArray);
-
-      $jsonResponse = json_encode ( $routeArray, JSON_PRETTY_PRINT );
-
-      header('content-type: application/json; charset=UTF-8');
-
-      print_r ( $jsonResponse );
-    }
-    else
-    {
-      $emptyArray = [];
-
-      $jsonResponse = json_encode ( $emptyArray, JSON_PRETTY_PRINT );
-
-      header('content-type: application/json; charset=UTF-8');
-
-      print_r ( $jsonResponse );
-    }
+    return $routeArray;
   }
 
-  public function createRoute()
+  public function createRoute(string $routeName): void
   {
-    $fileKey = "../routes/".$this->_input;
-
-    $routeFile = fopen($fileKey, "w") or die ("Unable to Open File");
-
-    fwrite($routeFile, "");
-
-    fclose($routeFile);
+    $this->_routeFileService->createFile($routeName);
 
     $this->_ledWallService->wallOff();
   }
 
-  public function updateRoute()
+  public function updateRoute(array $routeUpdate): void
   {
-    foreach($this->_input as $fileName=>$routeArray)
+    foreach($routeUpdate as $routeName=>$routeArray)
     {
-      $fileKey = "../routes/".$fileName;
-
-      $this->saveRouteFile($fileKey, $routeArray);
+      $this->_routeFileService->writeFile($routeName, $routeArray);
 
       $this->_ledWallService->updateWall($routeArray);
     }
   }
 
-  public function deleteRoute()
+  public function deleteRoute(string $routeName): void
   {
-    $filekey = "../routes/".$this->_input;
-
-    unlink($filekey);
-  }
-
-  private function saveRouteFile($fileKey, $routeArray){
-
-    $newValues = implode($routeArray, ",");
-
-    $routeFile = fopen($fileKey, "w") or die ("Unable to Open File");
-
-    fwrite($routeFile, $newValues );
-
-    fclose($routeFile);
+    if($this->_routeFileService->routeExists($routeName))
+    {
+      $this->_routeFileService->deleteFile($routeName);
+    }
+    else
+    {
+      throw new Exception("Invalid delete request.  File not found", 1);
+    }
   }
 }
  ?>

@@ -4,12 +4,13 @@ class LedWallService implements ILedWallService
 {
   private $_config;
 
-  public function __construct($config)
+  public function __construct(array $config)
   {
       $this->_config = $config;
   }
 
-  public function wallOff(){
+  public function wallOff(): void
+  {
     $stringCommand = $this->getBaseNeoPixelCommand();
 
     $stringCommand .= "pixels.fill((0, 0, 0))\"";
@@ -17,7 +18,7 @@ class LedWallService implements ILedWallService
     echo `$stringCommand`;
   }
 
-  public function updateWall($routeArray)
+  public function updateWall(array $routeArray): void
   {
     $stringCommand = $this->getBaseNeoPixelCommand();
 
@@ -43,7 +44,7 @@ class LedWallService implements ILedWallService
     echo `$stringCommand`;
   }
 
-  public function replaySequence($routeArray)
+  public function replaySequence(array $routeArray): void
   {
     $blinkArray = array();
 
@@ -67,7 +68,7 @@ class LedWallService implements ILedWallService
 
       $stringCommand .= "pixels[".$ledId."] = ".$ledColor.";";
 
-      $stringCommand .= "time.sleep(.7);";
+      $stringCommand .= "time.sleep(".$this->_config["blink_delay"].");";
     }
 
     $stringCommand .= "\"";
@@ -75,7 +76,7 @@ class LedWallService implements ILedWallService
     echo`$stringCommand`;
   }
 
-  private function getLedColor($holdHand)
+  private function getLedColor(string $holdHand): string
   {
     if($holdHand == "L"){
       return $this->_config["left_hand_led_rgb"];
@@ -90,11 +91,13 @@ class LedWallService implements ILedWallService
     }
   }
 
-  private function getLedId($holdPosition){
+  private function getLedId(string $holdPosition): string
+  {
     return $this->_config["led_id_map"][$holdPosition];
   }
 
-  private function getBaseNeoPixelCommand(){
+  private function getBaseNeoPixelCommand(): string
+  {
     $stringCommand = "sudo python3 -c \"import board, neopixel, time; ";
     $stringCommand .= "pixels = neopixel.NeoPixel(";
     $stringCommand .= $this->_config['neoPixelPin'];

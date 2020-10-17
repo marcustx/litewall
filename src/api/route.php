@@ -10,25 +10,35 @@ $input = json_decode(file_get_contents('php://input'),true);
 
 require_once('../litewall/ILedWallService.php');
 require_once('../litewall/LedWallService.php');
+require_once('../litewall/RouteFileService.php');
 require_once('RouteFacade.php');
 
 $ledWallService = new LedWallService($config);
 
-$routeFacade = new RouteFacade($ledWallService, $input, $_GET["routename"]);
+$routeFileService = new RouteFileService();
+
+$routeFacade = new RouteFacade($ledWallService, $routeFileService);
 
 switch ($method)
 {
   case 'GET':
-    $routeFacade->getRoute();
+    $routeArray = $routeFacade->getRoute($_GET["routename"]);
+
+    $jsonResponse = json_encode ( $routeArray, JSON_PRETTY_PRINT );
+
+    header('content-type: application/json; charset=UTF-8');
+
+    print_r ( $jsonResponse );
+
     break;
   case 'PUT':
-    $routeFacade->updateRoute();
+    $routeFacade->updateRoute($input);
     break;
   case 'POST':
-    $routeFacade->createRoute();
+    $routeFacade->createRoute($input);
     break;
   case 'DELETE':
-    $routeFacade->deleteRoute();
+    $routeFacade->deleteRoute($input);
     break;
 }
 

@@ -3,7 +3,7 @@
 interface ILedWallService
 {
     public function wallOff();
-    public function updateWall($routeArray);
+    public function updateWall(array $routeArray);
 }
 
 ?>
