@@ -1,5 +1,4 @@
-<?php session_start();
-$_SESSION['extra'] = '';
+<?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
 $config = include("$root/config/appconfig.php");
 $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

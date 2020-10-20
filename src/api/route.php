@@ -1,5 +1,5 @@
 <?php
-
+use Litewall\ledwall\LedCommandBuilder;
 $method = $_SERVER['REQUEST_METHOD'];
 
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
@@ -8,12 +8,15 @@ $config = include("../config/appconfig.php");
 
 $input = json_decode(file_get_contents('php://input'),true);
 
-require_once('../litewall/ILedWallService.php');
-require_once('../litewall/LedWallService.php');
-require_once('../litewall/RouteFileService.php');
+require_once('../ledwall/ILedWallService.php');
+require_once('../ledwall/LedWallService.php');
+require_once('../ledwall/RouteFileService.php');
+require_once('../ledwall/LedCommandBuilder.php');
 require_once('RouteFacade.php');
 
-$ledWallService = new LedWallService($config);
+$ledCommandBuilder = new LedCommandBuilder($config);
+
+$ledWallService = new LedWallService($ledCommandBuilder);
 
 $routeFileService = new RouteFileService();
 

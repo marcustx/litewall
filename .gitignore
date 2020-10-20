@@ -39,3 +39,6 @@ Thumbs.db
 # User Specific Application Routes #
 resources/routes/*
 src/routes/*
+
+# vendor libraries should be bundled on server not in vcs #
+vendor/*
