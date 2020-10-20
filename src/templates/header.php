@@ -16,8 +16,12 @@
 	<style>
 		.inUse{
 			text-align: center;
-			width: 50%;
-    	border-radius: 100px;
+			border-radius: 100px;
+			display: inline-block;
+		}
+
+		.inUse span{
+			padding: 10px;
 		}
 
 		.L{
@@ -30,6 +34,21 @@
 
 		.M{
 			background-color: <?php echo $config["match_color"] ?>
+		}
+
+		.climbing-hold{
+			position: relative;
+		}
+
+		.hold-background{
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			overflow: hidden;
+			color: white;
+			font-size: 10px;
 		}
 
 	.dropdown-submenu {
