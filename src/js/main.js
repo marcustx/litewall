@@ -19,7 +19,7 @@ var paintRouteArray = function(){
 
   var existingHtml = element.html();
 
-  element.html(existingHtml + "<div class=\"" + elementHand + " inUse\">" + index + "</div>");
+  element.html(existingHtml + "<div class=\"" + elementHand + " inUse\"><span>" + index + "</span></div>");
   });
 };
 
@@ -125,7 +125,7 @@ $( document ).ready(function() {
          url: url,
          success: function(responseArray) {
 
-           if(responseArray.length == 0){             
+           if(responseArray.length == 0){
              return;
            }
 

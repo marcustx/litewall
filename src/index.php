@@ -66,7 +66,9 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
           <tr>
             <th scope="row"><?php echo $rowLetter; ?></th>
             <?php while ($column <= $config["wall_columns"]) { ?>
-            <td id="<?php echo $rowLetter . $column ?>" class="climbing-hold" data-toggle="modal" data-target="#holdModal" data-climbing-hold="<?php echo $rowLetter . $column ?>"></td>
+            <td id="<?php echo $rowLetter . $column ?>" class="climbing-hold" data-toggle="modal" data-target="#holdModal" data-climbing-hold="<?php echo $rowLetter . $column ?>">
+              <div class="hold-background"><?php echo $rowLetter . $column ?></div>
+            </td>
             <?php $column++;
           } ?>
           </tr>
