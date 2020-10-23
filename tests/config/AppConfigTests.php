@@ -1,6 +1,6 @@
 <?php
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-$config = include("$root/config/appconfig.php");
+$config = include("$root/config/AppConfig.php");
 ?>
 <html>
 <head>

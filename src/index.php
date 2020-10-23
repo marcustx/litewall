@@ -1,6 +1,15 @@
 <?php
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
-$config = include("$root/config/appconfig.php");
+
+namespace Litewall\Api;
+
+use Litewall\Config\AppConfig;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$appConfig = new AppConfig();
+
+$config = $appConfig->Get();
+
 $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 ?>
 
@@ -29,7 +38,7 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       </div>
     </div>
       <button type="button" class="btn btn-secondary" id="new-route" data-toggle="modal" data-target="#newRouteModal">New Route</button>
-      <a href="/" class="btn btn-secondary">Turn Off Wall<a>
+      <a href="/" class="btn btn-secondary">Turn Off Wall</a>
     </p>
   </div>
 </section>
@@ -81,13 +90,15 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   </table>
   </div>
 
-  <?php } ?>
   <button type="button" class="btn btn-secondary" id="replay-sequence">Replay Sequence</button>
 
   <div class="btn-group pull-right" role="group" >
     <button type="button" class="btn btn-warning" id="undo-last-hold">Undo Last Hold</button>
     <button type="button" class="btn btn-danger" id="delete-route">Delete Route</button>
   </div>
+  
+  <?php } ?>
+
 
   <div class="modal fade" id="newRouteModal" tabindex="-1" role="dialog" aria-labelledby="newRouteModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -133,7 +144,7 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         </div>
       </div>
       <div class="modal-footer">
-        <input id="climbingHoldId" type="hidden" value=""></input>
+        <input id="climbingHoldId" type="hidden" value="">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" id="update-route">Save changes</button>
       </div>
@@ -143,4 +154,3 @@ $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 </section>
 
 <?php include($_SERVER['DOCUMENT_ROOT']."/templates/footer.php"); ?>
-<!-- end copyright -->

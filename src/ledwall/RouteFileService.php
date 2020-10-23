@@ -1,6 +1,10 @@
 <?php
 
-class RouteFileService
+declare(strict_types=1);
+
+namespace Litewall\LedWall;
+
+final class RouteFileService
 {
   const BaseFilePath = "../routes/";
 

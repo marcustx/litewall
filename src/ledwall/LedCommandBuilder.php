@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Litewall\ledwall;
+namespace Litewall\LedWall;
+
+use Exception;
 
 final class LedCommandBuilder
 {
@@ -107,6 +109,8 @@ final class LedCommandBuilder
       if($holdHand == "M"){
         return $this->_config["match_hand_led_rgb"];
       }
+
+      throw new Exception("Invalid hand hold character");
     }
 
     private function getLedId(string $holdPosition): string

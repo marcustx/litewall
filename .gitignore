@@ -42,3 +42,7 @@ src/routes/*
 
 # vendor libraries should be bundled on server not in vcs #
 vendor/*
+
+.phpunit.result.cache
+
+.idea/*

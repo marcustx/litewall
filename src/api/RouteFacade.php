@@ -1,6 +1,12 @@
 <?php
+declare(strict_types=1);
 
-class RouteFacade
+namespace Litewall\Api;
+
+use Litewall\LedWall\ILedWallService;
+use Litewall\LedWall\RouteFileService;
+
+final class RouteFacade
 {
   private $_ledWallService;
 
@@ -19,10 +25,6 @@ class RouteFacade
       $routeArray = $this->_routeFileService->readFile($routeName);
 
       $this->_ledWallService->replaySequence($routeArray);
-    }
-    else
-    {
-      return;
     }
   }
 
@@ -65,10 +67,5 @@ class RouteFacade
     {
       $this->_routeFileService->deleteFile($routeName);
     }
-    else
-    {
-      throw new Exception("Invalid delete request.  File not found", 1);
-    }
   }
 }
- ?>

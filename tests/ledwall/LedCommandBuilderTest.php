@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Litewall\ledwall\LedCommandBuilder;
+use Litewall\LedWall\LedCommandBuilder;
 
 class LedCommandBuilderTest extends TestCase
 {

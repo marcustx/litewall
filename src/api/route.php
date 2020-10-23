@@ -1,26 +1,16 @@
 <?php
-use Litewall\ledwall\LedCommandBuilder;
+
+namespace Litewall\Api;
+
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 $method = $_SERVER['REQUEST_METHOD'];
-
-$root = realpath($_SERVER["DOCUMENT_ROOT"]);
-
-$config = include("../config/appconfig.php");
 
 $input = json_decode(file_get_contents('php://input'),true);
 
-require_once('../ledwall/ILedWallService.php');
-require_once('../ledwall/LedWallService.php');
-require_once('../ledwall/RouteFileService.php');
-require_once('../ledwall/LedCommandBuilder.php');
-require_once('RouteFacade.php');
+$builder = new RouteFacadeBuilder();
 
-$ledCommandBuilder = new LedCommandBuilder($config);
-
-$ledWallService = new LedWallService($ledCommandBuilder);
-
-$routeFileService = new RouteFileService();
-
-$routeFacade = new RouteFacade($ledWallService, $routeFileService);
+$routeFacade = $builder->Build();
 
 switch ($method)
 {
@@ -45,4 +35,4 @@ switch ($method)
     break;
 }
 
-?>
+

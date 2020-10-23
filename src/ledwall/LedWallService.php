@@ -1,11 +1,14 @@
 <?php
-use Litewall\ledwall\LedCommandBuilder;
+
+declare(strict_types=1);
+
+namespace Litewall\LedWall;
 
 class LedWallService implements ILedWallService
 {
   private $_ledCommandBuilder;
 
-  public function __construct(Litewall\ledwall\LedCommandBuilder $ledCommandBuilder)
+  public function __construct(LedCommandBuilder $ledCommandBuilder)
   {
       $this->_ledCommandBuilder = $ledCommandBuilder;
   }
@@ -32,4 +35,4 @@ class LedWallService implements ILedWallService
   }
 }
 
-?>
+

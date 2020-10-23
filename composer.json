@@ -4,5 +4,8 @@
     },
     "autoload": {
         "psr-4": {"Litewall\\": "src/"}
-    }
+    },
+  "require": {
+    "ext-json": "*"
+  }
 }
