@@ -21,6 +21,6 @@ final class RouteFacadeBuilder
 
         $routeFileService = new RouteFileService();
 
-        return new RouteFacade($ledWallService, $routeFileService);
+        return new RouteFacade($ledWallService, $routeFileService, $config);
     }
 }

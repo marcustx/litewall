@@ -10,7 +10,7 @@ final class RouteFileService
 
   public function createFile(string $routeName)
   {
-    $fileKey = $this->getFilekey($routeName);
+    $fileKey = $this->getFileKey($routeName);
 
     $routeFile = fopen($fileKey, "w") or die ("Unable to Open File");
 
@@ -23,7 +23,7 @@ final class RouteFileService
   {
     if($this->routeExists($routeName))
     {
-      $fileKey = $this->getFilekey($routeName);
+      $fileKey = $this->getFileKey($routeName);
 
       $handle = fopen($fileKey, "r") or die ("Unable to Open File");
 
@@ -35,15 +35,13 @@ final class RouteFileService
     }
     else
     {
-      $emptyArray = [];
-
-      return $emptyArray;
+      return [];
     }
   }
 
   public function writeFile(string $routeName, array $routeArray)
   {
-    $fileKey = $this->getFilekey($routeName);
+    $fileKey = $this->getFileKey($routeName);
 
     $newValues = implode($routeArray, ",");
 
@@ -56,18 +54,18 @@ final class RouteFileService
 
   public function deleteFile(string $routeName)
   {
-    $filekey = self::BaseFilePath . $routeName;
+    $fileKey = self::BaseFilePath . $routeName;
 
-    unlink($filekey);
+    unlink($fileKey);
   }
 
   public function routeExists(string $routeName): bool
   {
-    $filekey = $this->getFilekey($routeName);
+    $fileKey = $this->getFileKey($routeName);
 
-    if(file_exists($filekey))
+    if(file_exists($fileKey))
     {
-      if(filesize($filekey) > 0)
+      if(filesize($fileKey) > 0)
       {
         return true;
       }
@@ -76,12 +74,8 @@ final class RouteFileService
     return false;
   }
 
-  private function getFilekey(string $routeName): string
+  private function getFileKey(string $routeName): string
   {
-    $key = self::BaseFilePath . $routeName;
-
-    return $key;
+    return self::BaseFilePath . $routeName;
   }
 }
-
-?>

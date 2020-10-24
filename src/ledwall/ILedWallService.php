@@ -6,7 +6,7 @@ namespace Litewall\LedWall;
 
 interface ILedWallService
 {
-    public function wallOff();
+    public function lightsOut();
     public function updateWall(array $routeArray);
 }
 

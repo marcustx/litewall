@@ -8,7 +8,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $appConfig = new AppConfig();
 
-$config = $appConfig->Get();
+$config = $appConfig->get();
 
 $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 ?>

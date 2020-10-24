@@ -13,7 +13,7 @@ class LedWallService implements ILedWallService
       $this->_ledCommandBuilder = $ledCommandBuilder;
   }
 
-  public function wallOff(): void
+  public function lightsOut(): void
   {
     $stringCommand = $this->_ledCommandBuilder->wallOff();
 

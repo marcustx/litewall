@@ -4,7 +4,7 @@ namespace Litewall\Config;
 
 final class AppConfig
 {
-    public function Get(): array
+    public function get(): array
     {
         return [
             'wall_columns' => 12,
